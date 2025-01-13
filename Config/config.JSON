@@ -1,0 +1,16 @@
+{
+  "enviroments": {
+    "DEV": {
+      "url" : "http://www.automationpractice.pl/index.php",
+      "MAX_ATTEMPTS": 3
+    },
+    "UAT": {
+      "url" : "http://www.automationpractice.pl/index.php",
+      "MAX_ATTEMPTS": 3
+    },
+    "QA": {
+      "url" : "http://www.automationpractice.pl/index.php",
+      "MAX_ATTEMPTS": 3
+    }
+  }
+}
