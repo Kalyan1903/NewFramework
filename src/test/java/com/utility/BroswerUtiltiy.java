@@ -12,7 +12,9 @@ import org.openqa.selenium.support.locators.RelativeLocator;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public abstract class BroswerUtiltiy
 {
@@ -20,7 +22,8 @@ public abstract class BroswerUtiltiy
 
     public WebDriver getDrvier()
     {
-       return driver.get();
+
+        return driver.get();
     }
 
     public BroswerUtiltiy(WebDriver driver) {
@@ -50,8 +53,11 @@ public abstract class BroswerUtiltiy
         if(browser == Browser.CHROME) {
             if (isHeadless) {
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless=old");
+                options.addArguments("--headless=new");
                 options.addArguments("--window=1920,1080");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-gpu");
                 driver.set(new ChromeDriver(options));
             } else {
                 WebDriverManager.chromedriver().setup();
@@ -87,11 +93,32 @@ public abstract class BroswerUtiltiy
         WebElement elementToEnterText = driver.get().findElement(locator);
         elementToEnterText.sendKeys(textToEnter);
     }
+    public  void enterKey(By locator,Keys keystoEnter)
+    {
+        WebElement elementToEnterkeys = driver.get().findElement(locator);
+        elementToEnterkeys.sendKeys(keystoEnter);
+    }
     public String getText(By locator)
     {
         WebElement elementToGetText = driver.get().findElement(locator);
         //driver.get().findElement(RelativeLocator.with())
        return elementToGetText.getText();
+    }
+    public List<String> getlistofText(By locator)
+    {
+      List<WebElement> listofElements =  driver.get().findElements(locator);
+        //driver.get().findElement(RelativeLocator.with())
+        List<String> listOfTexts = new ArrayList<>();
+        for(WebElement ele : listofElements)
+        {
+           listOfTexts.add(getText(ele));
+        }
+        return listOfTexts;
+    }
+    public String getText(WebElement element)
+    {
+        //driver.get().findElement(RelativeLocator.with())
+        return element.getText();
     }
     public String TakeScreenshotof(String name)
     {
@@ -100,7 +127,7 @@ public abstract class BroswerUtiltiy
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH-mm-ss");
         String Date  = simpleDateFormat.format(date);
-        String Path = System.getProperty("user.dir")+"//screenshots//"+name + " -" + Date + ".png";
+        String Path = "./screenshots/"+name + " -" + Date + ".png";
         File Screenshotfile = new File(Path);
         try {
             FileUtils.copyFile(Screenshotdata,Screenshotfile);
@@ -109,6 +136,10 @@ public abstract class BroswerUtiltiy
         }
         return Path;
     }
+    public void quit() {
+        driver.get().quit();
+    }
+
 
 
 

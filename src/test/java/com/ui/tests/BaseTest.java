@@ -27,13 +27,13 @@ public class BaseTest
     @BeforeMethod(description = "load the homepage of the website")
     public void setUpMethod(
         @Optional("chrome") String browser,
-        @Optional("true") boolean isHeadless,
+        @Optional("false") boolean isHeadless,
         @Optional("false") boolean isLamda, ITestResult result) {
     this.isLamda = isLamda;
     this.isHeadless = isHeadless;
 
         if (isLamda) {
-        driverlamda =  LamdaTestUtility.initialiseLamdaTestSession(browser,result.getMethod().getMethodName());
+        driverlamda =  LamdaTestUtility.initialiseLamdaTestSession("chrome",result.getMethod().getMethodName());
         homePage = new HomePage(driverlamda);
         } else {
             logger.info("Launching the website");
@@ -42,6 +42,7 @@ public class BaseTest
     }
     public BroswerUtiltiy getInstance()
     {
+
         return homePage;
     }
     @AfterMethod(description = "Tear down the browser")
@@ -50,6 +51,9 @@ public class BaseTest
         if(isLamda)
         {
             LamdaTestUtility.quitSession();
+        }
+        else {
+        homePage.quit();
         }
     }
 

@@ -6,6 +6,7 @@ import com.ui.pojo.User;
 import com.utility.CSVReaderUtility;
 import com.utility.XlsxReaderUtility;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,10 +42,17 @@ public class LoginDataprovider {
     {
         return CSVReaderUtility.ReadCsv("LoginData.csv");
     }
+
     @DataProvider(name = "testdataxlsxprovider")
     public Iterator<User> loginXlsxDataProvider()
     {
-        return XlsxReaderUtility.Xlsxrader("TestData.xlsx");
+        return XlsxReaderUtility.Xlsxrader("TestData.xlsx","User_Data");
+    }
+    @DataProvider(name = "testdataxlsxproviderselected")
+    @Parameters({"excelFileName"})
+    public Iterator<User> SelectedloginXlsxDataProvider(String excelFileName)
+    {
+        return XlsxReaderUtility.getFilteredExcelData(excelFileName);
     }
 
 }

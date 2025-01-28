@@ -5,6 +5,7 @@
         <parameter name="browser" value="chrome"></parameter>
         <parameter name="isHeadless" value="true"></parameter>
         <parameter name="isLamda" value="false"></parameter>
+        <parameter name="ExcelName" value="LoginData.csv"></parameter>
         <classes>
             <class name="com.ui.tests.LoginTest1"/>
         </classes>
