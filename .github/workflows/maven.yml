@@ -39,7 +39,7 @@ jobs:
       uses: actions/upload-artifact@v4.4.3
       with:
           name: html-report
-          path: reports.html
+          path: Report.html
 
     - name: Test Execution Status
       if: always()
@@ -50,7 +50,7 @@ jobs:
 
       run: |
         mkdir -p public/extent-reports
-        cp -R reports.html  public/extent-reports/
+        cp -R Report.html  public/extent-reports/
         cp -R screenshots/ public/extent-reports/screenshots/
         ls -l
 
