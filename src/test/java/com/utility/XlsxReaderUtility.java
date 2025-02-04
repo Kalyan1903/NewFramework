@@ -22,7 +22,7 @@ public class XlsxReaderUtility {
         XSSFSheet xssfSheet;
         List<User> UserData =  new ArrayList<>();
         User user;
-        File filexlsx = new File(System.getProperty("user.dir") + "\\testData\\"+filename);
+        File filexlsx = new File(System.getProperty("user.dir") + "//testData//"+filename);
         try {
             xssfWorkbook = new XSSFWorkbook(filexlsx);
 
