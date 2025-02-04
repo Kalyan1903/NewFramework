@@ -24,7 +24,8 @@ jobs:
         cache: maven
         
     - name: Running My Framework with maven
-      run: mvn test -X -Dbrowser=chrome -DisHeadless=ture -DisLambda=false
+      run: mvn clean install -Dmaven.security.dispatcher.skip=true -X -e -Dbrowser=chrome -DisLambda=false -DisHeadless=true
+
 
     - name: Upload Test logs
       if: always()
