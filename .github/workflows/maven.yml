@@ -45,7 +45,7 @@ jobs:
       if: always()
       run: echo "Test Execution Completed"
 
-    - name: Copy Report to gh-pages Folder
+    - name: Copy Report to gh-pages folder
       if: always()
 
       run: |
