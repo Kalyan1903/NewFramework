@@ -20,7 +20,7 @@ public class LoginDataprovider {
     {
         Gson gson = new Gson();
         FileReader fileReader;
-        File testDatafile = new File(System.getProperty("user.dir") + "\\testData\\logindata.json");
+        File testDatafile = new File(System.getProperty("user.dir") + "//testData//logindata.json");
         try {
             fileReader = new FileReader(testDatafile);
         } catch (FileNotFoundException e) {
