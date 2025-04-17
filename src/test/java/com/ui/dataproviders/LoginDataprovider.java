@@ -11,7 +11,9 @@ import org.testng.annotations.Parameters;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LoginDataprovider {
 
@@ -53,6 +55,22 @@ public class LoginDataprovider {
     public Iterator<User> SelectedloginXlsxDataProvider(String excelFileName)
     {
         return XlsxReaderUtility.getFilteredExcelData(excelFileName);
+    }
+    @DataProvider(name = "excelData")
+    public Object[][] getData() throws IOException {
+        String filePath = "C:\\Users\\Pabba\\MynewFramework\\testData\\cleaned_testDatafordummy.xlsx";
+        List<HashMap<String, String>>testData = XlsxReaderUtility.readExcelData(filePath);
+        System.out.println("📄 Raw Excel rows: " + testData.size());
+        List<HashMap<String, String>> filteredData = testData.stream()
+                .filter(map -> map.values().stream().anyMatch(value -> value != null && !value.trim().isEmpty()))
+                .collect(Collectors.toList());
+        System.out.println("✅ Filtered rows (non-empty): " + filteredData.size());
+        Object[][] data = new Object[filteredData.size()][1];
+        for (int i = 0; i < filteredData.size(); i++) {
+            data[i][0] = filteredData.get(i);
+        }
+        return data;
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.ui.tests;
 
 import com.contants.Browser;
 import com.ui.pages.HomePage;
+import com.ui.pages.dummyPage;
 import com.utility.BroswerUtiltiy;
 import com.utility.LamdaTestUtility;
 import com.utility.LoggerUtility;
@@ -18,13 +19,14 @@ import static com.contants.Browser.CHROME;
 public class BaseTest
 {
     HomePage homePage;
+    dummyPage dummypage;
     private boolean isLamda;
     private  boolean isHeadless;
     Logger logger = LoggerUtility.GetLogger(this.getClass());
     WebDriver driverlamda;
 
 @Parameters({"browser","isHeadless","isLamda"})
-    @BeforeMethod(description = "load the homepage of the website")
+    @BeforeMethod(description = "load the homepage of the website",enabled = false)
     public void setUpMethod(
         @Optional("chrome") String browser,
         @Optional("false") boolean isHeadless,
@@ -40,12 +42,20 @@ public class BaseTest
             homePage = new HomePage(Browser.valueOf(browser.toUpperCase()),isHeadless);
         }
     }
+    @Parameters({"browser","isHeadless"})
+    @BeforeMethod(enabled = true)
+    public void setUpMethodforDummy(@Optional("chrome") String browser,@Optional("false") boolean isHeadless)
+    {
+        this.isHeadless = isHeadless;
+        dummypage = new dummyPage(Browser.valueOf(browser.toUpperCase()),isHeadless);
+    }
+
     public BroswerUtiltiy getInstance()
     {
 
         return homePage;
     }
-    @AfterMethod(description = "Tear down the browser")
+    @AfterMethod(description = "Tear down the browser",enabled = false)
     public void Teardown()
     {
         if(isLamda)
@@ -54,6 +64,17 @@ public class BaseTest
         }
         else {
         homePage.quit();
+        }
+    }
+    @AfterMethod(enabled = true)
+    public void Teardownfordummt()
+    {
+        if(isLamda)
+        {
+            LamdaTestUtility.quitSession();
+        }
+        else {
+            dummypage.quit();
         }
     }
 

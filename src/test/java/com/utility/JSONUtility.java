@@ -10,9 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class JSONUtility {
-    public static Environment readJSON(Env env, String EnvironmentName) {
+    public static Environment readJSON(String EnvironmentName,String filepath) {
         Gson gson = new Gson();
-        File jsonFile = new File(System.getProperty("user.dir") + "\\Config\\config.json");
+        File jsonFile = new File(System.getProperty("user.dir") + filepath);
         FileReader fileReader;
         try {
             fileReader = new FileReader(jsonFile);

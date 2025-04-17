@@ -8,10 +8,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.locators.RelativeLocator;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +22,7 @@ public abstract class BroswerUtiltiy
 {
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 
-    public WebDriver getDrvier()
+    public static WebDriver getDrvier()
     {
 
         return driver.get();
@@ -77,6 +79,7 @@ public abstract class BroswerUtiltiy
     }
     public void goToWebsite(String url)
     {
+
         driver.get().get(url);
     }
     public void maximizeWindow()
@@ -115,7 +118,37 @@ public abstract class BroswerUtiltiy
         }
         return listOfTexts;
     }
+    public void clickonefromlistofText(By locator,String value)
+    {
+        List<WebElement> listofElements =  driver.get().findElements(locator);
+        System.out.println(value);
+        System.out.println(listofElements);
+        //driver.get().findElement(RelativeLocator.with())
+        for (WebElement m : listofElements) {
+            System.out.println(m.getText());
+            if (m.getText().equalsIgnoreCase(value)) {
+                try {
+                    if (m.isDisplayed() && m.isEnabled()) {
+                        try {
+                            m.click();
+                            System.out.println("Clicked normally.");
+                        } catch (Exception e) {
+                            System.out.println("Normal click failed, trying JS click.");
+                            JavascriptExecutor js = (JavascriptExecutor) driver.get();
+                            js.executeScript("arguments[0].click();", m);
+                        }
+                        break;
+                    } else {
+                        System.out.println("Element not visible/clickable: " + m.getText());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Exception during click: " + e.getMessage());
+                }
+            }
+        }
+    }
     public String getText(WebElement element)
+
     {
         //driver.get().findElement(RelativeLocator.with())
         return element.getText();
@@ -136,9 +169,35 @@ public abstract class BroswerUtiltiy
         }
         return Path;
     }
+    public void selectByVisibleText(By locator, String visibleText) {
+        WebElement dropdown = driver.get().findElement(locator);
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(visibleText);
+    }
+
+    // Method to select by value
+    public void selectByValue(By locator, String value) {
+        WebElement dropdown = driver.get().findElement(locator);
+        Select select = new Select(dropdown);
+        select.selectByValue(value);
+    }
+
+    // Method to select by index
+    public void selectByIndex(By locator, int index) {
+        WebElement dropdown = driver.get().findElement(locator);
+        Select select = new Select(dropdown);
+        select.selectByIndex(index);
+    }
+
     public void quit() {
         driver.get().quit();
     }
+
+    public void waits()
+    {
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
 
 
 
