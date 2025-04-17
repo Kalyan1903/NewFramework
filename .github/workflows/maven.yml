@@ -24,7 +24,8 @@ jobs:
         cache: maven
         
     - name: Running My Framework with maven
-      run: mvn test -X -Dbrowser=chrome -DisHeadless=ture -DisLambda=false
+      run: mvn clean install -Dmaven.security.dispatcher.skip=true -X -e -Dbrowser=chrome -DisLambda=false -DisHeadless=true
+
 
     - name: Upload Test logs
       if: always()
@@ -37,19 +38,19 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4.4.3
       with:
-       name: Test Reports
-       path: reports.html
+          name: html-report
+          path: Report.html
 
     - name: Test Execution Status
       if: always()
       run: echo "Test Execution Completed"
 
-    - name: Copy Report to gh-pages Folder
+    - name: Copy Report to gh-pages folder
       if: always()
 
       run: |
         mkdir -p public/extent-reports
-        cp -R report.html  public/extent-reports/
+        cp -R Report.html  public/extent-reports/
         cp -R screenshots/ public/extent-reports/screenshots/
         ls -l
 
